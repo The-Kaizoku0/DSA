@@ -136,6 +136,113 @@ int diameter(Node* node)
    }
    return max(diameter(node->left), max(diameter(node->right),(1+height(node->left)+height(node->right))));
 }
+// level order level wise, line by line another method with using a count of q.size() and 
+//then having a while loop for that to print each level
+void levelOrder(Node* node)
+{
+    if(node==NULL)
+    {
+        return ;
+    }
+    queue<Node*> q;
+    q.push(node);
+    q.push(NULL);
+    while(q.size()>1)
+    {
+        Node* t=q.front();
+        q.pop();
+        if(t==NULL)
+        {
+            q.push(NULL);
+            cout << "$" <<" " ;
+        }
+        else
+        {
+            cout<< t->data<<" ";
+            if(t->left)
+            {
+                q.push(t->left);
+            }
+            if(t->right)
+            {
+                q.push(t->right);
+            }
+        }
+    }
+    cout << "$";
+  //Your code here
+}
+
+void leftView(Node *root)
+{
+   if (root == NULL) return;  
+  
+    // Create an empty queue for level order tarversal  
+    queue<Node *> q;  
+  
+    // Enqueue Root and initialize height  
+    q.push(root);  
+  
+    while (q.empty() == false)  
+    {  
+        // nodeCount (queue size) indicates number 
+        // of nodes at current lelvel.  
+        int nodeCount = q.size();  
+        int x=q.size();
+        int level=1;
+  
+        // Dequeue all nodes of current level and  
+        // Enqueue all nodes of next level  
+        while (nodeCount > 0) 
+        {  
+            Node *node = q.front();
+            if(level!=0)
+            {cout << node->data << " ";
+                level=0;
+            }  
+            q.pop();  
+            if (node->left != NULL)  
+                q.push(node->left);  
+            if (node->right != NULL)  
+                q.push(node->right);  
+            nodeCount--;  
+        }  
+        level++;
+    }  
+   
+}
+int height(Node* root)
+{
+    if(root==NULL)
+    {
+        return 0;
+    }
+    return 1+max(height(root->left),height(root->right));
+}
+void printgivenlevel(Node* root, int level)
+{
+    if(root==NULL)
+    {
+        return ;
+    }
+    if(level==1)
+    {
+        cout << root->data <<" ";
+    }
+    else if(level>1)
+    {
+        printgivenlevel(root->left,level-1);
+        printgivenlevel(root->right,level-1);
+    }
+}
+void reversePrint(Node *root)
+{
+    int d=height(root);
+    for(int i=d;i>0;i--)
+    {
+        printgivenlevel(root,i);
+    }
+}
 int main() 
 { 
   /*create root*/
