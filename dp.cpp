@@ -62,7 +62,72 @@ int lcs(string a, string b, int n ,int m)
     }
     return l[n][m];    
 }
+int editdist(string s1,string s2)
+{
+    int n=s1.size();
+    int m=s2.size();
+    int dp[m+1][n+1]; 
+  
+    // Fill d[][] in bottom up manner 
+    for (int i=0; i<=m; i++) 
+    { 
+        for (int j=0; j<=n; j++) 
+        { 
+            // If first string is empty, only option is to 
+            // insert all characters of second string 
+            if (i==0) 
+                dp[i][j] = j;  // Min. operations = j 
+  
+            // If second string is empty, only option is to 
+            // remove all characters of second string 
+            else if (j==0) 
+                dp[i][j] = i; // Min. operations = i 
+  
+            // If last characters are same, ignore last char 
+            // and recur for remaining string 
+            else if (s1[i-1] == s2[j-1]) 
+                dp[i][j] = dp[i-1][j-1]; 
+  
+            // If the last character is different, consider all 
+            // possibilities and find the minimum 
+            else
+                dp[i][j] = 1 + min(dp[i][j-1],  // Insert 
+                                   min(dp[i-1][j],  // Remove 
+                                   dp[i-1][j-1])); // Replace 
+        } 
+    } 
+    return dp[m][n];
+    
+}
 
+// there is some error
+int cost(int n,int a[][n])
+{
+    int c[n][n];
+    for(int i=0;i<n;i++)
+    {
+        for(int j=0;j<n;j++)
+        {
+            if(i==0)
+            {
+                c[i][j]=a[i][j];
+            }
+            else
+            {
+                c[i][j]=a[i][j]+min(c[i-1][j-1],min(c[i-1][j],c[i-1][j-1]));
+            }
+        }
+    }
+    int maxi=INT_MIN;
+    for(int i=0;i<n;i++)
+    {
+        if(c[n-1][i]>maxi)
+        {
+            maxi=a[n-1][i];
+        }
+    }
+    return maxi;
+}
 int main() 
 { 
     int t;
