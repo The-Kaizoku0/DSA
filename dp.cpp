@@ -225,6 +225,35 @@ int perfectsum(int a[],int n, int sum)
     return dp[n][sum];
 }
 
+// min jump to reach the end
+int minjump(int a[],int n)
+{
+    int jump[n];
+    jump[0]=0;
+    if(a[0]==0)
+    {
+        return -1;
+    }
+    for(int i=1;i<n;i++)
+    {
+        jump[i]=INT_MAX;
+        
+        for(int j=0;j<i;j++)
+        {
+
+            if(i-j<=a[j])
+            {
+                jump[i]=min(jump[i], 1+jump[j]);
+            }
+        }
+    
+    }
+    if(jump[n-1]==INT_MAX)
+    {
+        return -1;
+    }
+    return jump[n-1];
+}
 int main() 
 { 
     int t;
