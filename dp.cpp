@@ -254,6 +254,37 @@ int minjump(int a[],int n)
     }
     return jump[n-1];
 }
+
+// count no. of ways to reach nth stair if only 1 and 2 steps are taken(order matter)%e
+// not the most optimised sol.
+unsigned long long int e=1000000007;
+
+unsigned long long int ways_to_reach_nth_stair(int n)
+{
+    if(n==0)
+    {
+        return 0;
+    }
+    if(n==1)
+    {
+        return 1;
+    }
+    if(n==2)
+    {
+        return 2;
+    }
+    unsigned long long int a[n+1];
+    a[0]=0;
+    a[1]=1;
+    a[2]=2;
+    for(int i=3;i<=n;i++)
+    {
+        a[i]=((a[i-1]%e)+(a[i-2]%e))%e;
+    }
+    return a[n];
+
+}
+
 int main() 
 { 
     int t;
