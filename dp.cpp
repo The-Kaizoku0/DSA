@@ -284,7 +284,54 @@ unsigned long long int ways_to_reach_nth_stair(int n)
     return a[n];
 
 }
+// fibonacci with matrix exponentiation
+# define ull unsigned long long 
+ull e=1000000007;
 
+void multiply (ull F[3][3], ull M[3][3])
+{
+    ull mul[3][3];
+    for(int i=0;i<3;i++)
+    {
+        for(int j=0;j<3;j++)
+        {
+            mul[i][j]=0;
+            for(int k=0;k<3;k++)
+            {
+                mul[i][j]=(mul[i][j]+(F[i][k]*M[k][j])%e)%e;
+            }
+        }
+    }
+    for(int i=0;i<3;i++)
+    {
+        for(int j=0;j<3;j++)
+        {
+            F[i][j]=mul[i][j];
+        }
+    }
+}
+
+ull power(ull F[3][3], int n)
+{
+    ull M[3][3]={{1,1,1},{1,0,0},{0,1,0}};
+    if(n==1)
+    {
+        return F[0][0]+F[0][1];
+    }
+    power(F,n/2);
+    multiply(F,F);
+    if(n%2!=0)
+    {
+        multiply(F,M);
+    }
+    return F[0][0]+F[0][1];
+}
+
+ull fibo(int n)
+{
+    ull F[3][3]={{1,1,1},{1,0,0},{0,1,0}};
+    return power(F,n-2);
+}
 int main() 
 { 
     int t;
